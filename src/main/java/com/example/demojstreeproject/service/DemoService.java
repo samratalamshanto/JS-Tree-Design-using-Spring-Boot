@@ -32,7 +32,7 @@ public class DemoService {
         return demoRepository.findAll();
     }
 
-    public Map<String, DemoModel> recursiveHelperFunction(int Id, List<DemoEntity> fullEntityList, List<Map<String,DemoModel>> modelList) {
+    public Map<String, DemoModel> recursiveHelperFunction(int Id, List<DemoEntity> fullEntityList, List<Map<String, DemoModel>> modelList) {
         Map<String, DemoModel> map = new HashMap<>();
 
         DemoEntity demo = demoRepository.findById((long) Id).get();
@@ -40,7 +40,7 @@ public class DemoService {
         DemoModel demoModel = new DemoModel();
 
         String entityName = demo.getEntityName();
-        System.out.println(demo);
+
         int parentId = (int) demo.getParentId();
 
         if (Objects.equals(parentId, 0)) {
@@ -49,20 +49,25 @@ public class DemoService {
         } else {
             demoModel.setIsParent(0);
             demoModel.setHasChild(0);
-            demoModel.setParentName(fullEntityList.get((int) demo.getParentId()-1).getEntityName());
+            demoModel.setParentName(fullEntityList.get((int) demo.getParentId() - 1).getEntityName());
         }
 
-        for (int i = 0; i < fullEntityList.size(); i++) {
-            DemoEntity demo1 = fullEntityList.get(i);
-            Map<String,DemoModel> map1= new HashMap<>();
-
-
-            modelList.add(recursiveHelperFunction(,fullEntityList,modelList));
-
-
-
-            demoModel.setChild(modelList);
+        if (fullEntityList.size() == 0) {
+            return map;
         }
+        for (DemoEntity demo1 : fullEntityList) {
+            int demo1Id = (int) demo1.getParentId();
+            int Id1 = (int) Id;
+            if (demo1Id == Id1) {
+                demoModel.setHasChild(1);
+                fullEntityList.remove(demo1);
+                Map<String, DemoModel> map1 = recursiveHelperFunction((int) demo1.getId(), fullEntityList, modelList);
+                log.info("maps :{}", map1);
+                modelList.add(map1);
+            }
+
+        }
+        demoModel.setChild(modelList);
         map.put(entityName, demoModel);
 
         return map;
@@ -71,7 +76,7 @@ public class DemoService {
 
     public Map<String, DemoModel> getDataById(int Id) {
         List<DemoEntity> list = getData();
-        List<Map<String,DemoModel>> modelList = new ArrayList<>();
+        List<Map<String, DemoModel>> modelList = new ArrayList<>();
         return recursiveHelperFunction(Id, list, modelList);
     }
 }
