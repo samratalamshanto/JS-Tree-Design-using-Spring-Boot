@@ -6,5 +6,5 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface DemoRepository extends JpaRepository<DemoEntity,Long> {
-    DemoEntity findByEntityName(String entityName);
+   // DemoEntity findByEntityName(String entityName);
 }

@@ -6,6 +6,7 @@ import lombok.*;
 import javax.persistence.*;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 
 @Data
@@ -18,6 +19,6 @@ public class DemoModel {
     private String parentName;
     private int isParent;
     private int hasChild;
-    private List<Map<String,DemoModel>> child;
+    public List<Map<String, DemoModel>> child;
 }
 
