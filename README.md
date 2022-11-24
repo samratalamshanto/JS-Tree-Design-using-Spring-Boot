@@ -7,6 +7,7 @@
 
 
 # Demo Data:
+```json
 [
     {
         "entityName": "ceo1",
@@ -54,8 +55,10 @@
         "id": 9
     }
 ]
+```
 
 # Demo Result:
+```json
 {
     "ceo2": {
         "parentName": "",
@@ -91,3 +94,4 @@
         ]
     }
 }
+```
