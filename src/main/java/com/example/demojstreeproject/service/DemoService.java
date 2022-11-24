@@ -146,7 +146,7 @@ public class DemoService {
                         int childDemoModel1 = demoModel1.getHasChild();
                         log.info("childModel1: {}", childDemoModel1);
                         if (childDemoModel1 == 1) {
-                            List<Map<String, DemoModel>> modelList1y = new ArrayList<>();
+                            List<Map<String, DemoModel>> modelList1 = new ArrayList<>();
                             map1 = recursiveHelperFunction(demo1Id, fullEntityList, modelList1);
                             log.info("childModel map: {}", map1);
                         }
