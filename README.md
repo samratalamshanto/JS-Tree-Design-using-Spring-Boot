@@ -53,6 +53,11 @@
         "entityName": "lead1-4",
         "parentId": 6,
         "id": 9
+    },
+    {
+        "entityName": "soft-developer",
+        "parentId": 9,
+        "id": 10
     }
 ]
 ```
@@ -89,6 +94,50 @@
                             }
                         }
                     ]
+                }
+            }
+        ]
+    }
+}
+```
+```json
+{
+    "ceo1": {
+        "parentName": "",
+        "isParent": 1,
+        "hasChild": 1,
+        "child": [
+            {
+                "vp1": {
+                    "parentName": "ceo1",
+                    "isParent": 0,
+                    "hasChild": 1,
+                    "child": [
+                        {
+                            "lead11": {
+                                "parentName": "vp1",
+                                "isParent": 0,
+                                "hasChild": 0,
+                                "child": null
+                            }
+                        }
+                    ]
+                }
+            },
+            {
+                "vp2": {
+                    "parentName": "ceo1",
+                    "isParent": 0,
+                    "hasChild": 0,
+                    "child": null
+                }
+            },
+            {
+                "vp3": {
+                    "parentName": "ceo1",
+                    "isParent": 0,
+                    "hasChild": 0,
+                    "child": null
                 }
             }
         ]
