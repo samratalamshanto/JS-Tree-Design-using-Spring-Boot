@@ -32,6 +32,7 @@ public class DemoService {
         return demoRepository.findAll();
     }
 
+
     public Map<String, DemoModel> recursiveHelperFunctionHelper(int Id, List<DemoEntity> fullEntityList) {
         Map<String, DemoModel> map = new HashMap<>();
 
@@ -73,31 +74,15 @@ public class DemoService {
                     if (!map.isEmpty()) {
                         return map1;
                     }
-
-//
-//                    if (modelList.contains(map1)) {
-//                        return map;
-//                    } else {
-//                        log.info("maps :{}", map1);
-//                        if(modelList.size()==0)
-//                        {
-//                            modelList.add(map1);
-//                        }
-//
-//                    }
-
                 } catch (Exception e) {
                     log.error(e.getMessage(), e);
                 }
-
-
             }
         }
         //demoModel.setChild(modelList);
         map.put(entityName, demoModel);
 
         return map;
-
     }
 
 
@@ -159,8 +144,6 @@ public class DemoService {
                 try {
 
                     modelList.add(map1);
-
-
                     log.info("maps equal:??: {}", modelList.contains(map1));
 
                 } catch (Exception e) {
