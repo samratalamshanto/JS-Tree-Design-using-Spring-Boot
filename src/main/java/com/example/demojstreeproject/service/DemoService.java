@@ -33,112 +33,105 @@ public class DemoService {
     }
 
 
-    public Map<String, DemoModel> recursiveHelperFunctionHelper(int Id, List<DemoEntity> fullEntityList) {
+    public Map<String, DemoModel> recursiveHelperFunction(int Id, List<DemoEntity> fullEntityList) {
         Map<String, DemoModel> map = new HashMap<>();
 
-        DemoEntity demo = demoRepository.findById((long) Id).get();
+        DemoEntity entity = demoRepository.findById((long) Id).get();
 
-        DemoModel demoModel = new DemoModel();
+        DemoModel model = new DemoModel();
 
-        String entityName = demo.getEntityName();
+        String entityName = entity.getEntityName();
 
-        int parentId = (int) demo.getParentId();
+        int entityParentId = (int) entity.getParentId();
 
-        if (Objects.equals(parentId, 0)) {
-            demoModel.setIsParent(1);
-            demoModel.setParentName("");
+        if (Objects.equals(entityParentId, 0)) {
+            model.setIsParent(1);
+            model.setParentName("");
         } else {
-            demoModel.setIsParent(0);
-            demoModel.setHasChild(0);
-            demoModel.setParentName(fullEntityList.get((int) demo.getParentId() - 1).getEntityName());
+            model.setIsParent(0);
+            model.setHasChild(0);
+            model.setParentName(fullEntityList.get((int) entity.getParentId() - 1).getEntityName());  //0 index list so -1 needed
         }
 
 
         Iterator<DemoEntity> itr = fullEntityList.iterator();
         while (itr.hasNext()) {
-            DemoEntity demo1 = itr.next();
+            DemoEntity curEntity = itr.next();
 
-            int demo1Id = (int) demo1.getParentId();
-            int Id1 = (int) Id;
-
-
-            if (demo1Id == Id1) {
-
-                demoModel.setHasChild(1);
-
-                String demo1Entity = demo1.getEntityName();
+            int curEntityParentId = (int) curEntity.getParentId();
+            int entityId = (int) Id;
 
 
+            if (curEntityParentId == entityId) {
+                model.setHasChild(1);
                 try {
-                    Map<String, DemoModel> map1 = recursiveHelperFunctionHelper((int) demo1.getId(), fullEntityList);
+                    Map<String, DemoModel> map1 = recursiveHelperFunction((int) curEntity.getId(), fullEntityList);
                     if (!map.isEmpty()) {
-                        return map1;
+                        return map1;  //return map
                     }
                 } catch (Exception e) {
                     log.error(e.getMessage(), e);
                 }
             }
         }
-        //demoModel.setChild(modelList);
-        map.put(entityName, demoModel);
+
+        //when map is empty, it will come here and set null list []
+        List<Map<String, DemoModel>> nullModel = new ArrayList<>();
+        model.setChild(nullModel);
+        map.put(entityName, model);
 
         return map;
     }
 
 
-    public Map<String, DemoModel> recursiveHelperFunction(int Id, List<DemoEntity> fullEntityList, List<Map<String, DemoModel>> modelList) {
+    public Map<String, DemoModel> recursiveFunction(int Id, List<DemoEntity> fullEntityList, List<Map<String, DemoModel>> modelList) {
         Map<String, DemoModel> map = new HashMap<>();
 
-        DemoEntity demo = demoRepository.findById((long) Id).get();
+        DemoEntity entity = demoRepository.findById((long) Id).get();
 
-        DemoModel demoModel = new DemoModel();
+        DemoModel curModel = new DemoModel();
 
-        String entityName = demo.getEntityName();
+        String entityName = entity.getEntityName();
 
-        int parentId = (int) demo.getParentId();
+        int parentId = (int) entity.getParentId();
 
         if (Objects.equals(parentId, 0)) {
-            demoModel.setIsParent(1);
-            demoModel.setParentName("");
+            curModel.setIsParent(1);
+            curModel.setParentName("");
         } else {
-            demoModel.setIsParent(0);
-            demoModel.setHasChild(0);
-            demoModel.setParentName(fullEntityList.get((int) demo.getParentId() - 1).getEntityName());
+            curModel.setIsParent(0);
+            curModel.setHasChild(0);
+            curModel.setParentName(fullEntityList.get((int) entity.getParentId() - 1).getEntityName());
         }
 
 
-        Iterator<DemoEntity> itr = fullEntityList.iterator();
+        Iterator<DemoEntity> itr = fullEntityList.iterator(); // O index list
         while (itr.hasNext()) {
-            DemoEntity demo1 = itr.next();
+            DemoEntity curEntity = itr.next();
 
-            int demo1Id = (int) demo1.getId();
+            int curEntityId = (int) curEntity.getId();
 
-            int demo1ParentId = (int) demo1.getParentId();
-            int Id1 = (int) Id;
-
-
-            if (demo1ParentId == Id1) {
-
-                demoModel.setHasChild(1);
-
-                String demo1Entity = demo1.getEntityName();
+            int curEntityParentId = (int) curEntity.getParentId();
+            int entityId = (int) Id;
 
 
-                Map<String, DemoModel> map1 = recursiveHelperFunctionHelper((int) demo1.getId(), fullEntityList);
+            if (curEntityParentId == entityId) {
+
+                curModel.setHasChild(1);
+                Map<String, DemoModel> map1 = recursiveHelperFunction((int) curEntity.getId(), fullEntityList);
+
                 if (!map1.isEmpty()) {
-
-                    for (DemoModel demoModel1 : map1.values()) {
-                        int childDemoModel1 = demoModel1.getHasChild();
+                    for (DemoModel mapModelValue : map1.values()) {
+                        int childDemoModel1 = mapModelValue.getHasChild();  //if mapModelValue has child then we call again the recursiveFunction()
                         log.info("childModel1: {}", childDemoModel1);
                         if (childDemoModel1 == 1) {
                             List<Map<String, DemoModel>> modelList1 = new ArrayList<>();
-                            map1 = recursiveHelperFunction(demo1Id, fullEntityList, modelList1);
+                            map1 = recursiveFunction(curEntityId, fullEntityList, modelList1);  //otherwise it will not return all values.
                             log.info("childModel map: {}", map1);
                         }
                     }
 
                 }
-
 
                 log.info("maps :{}", map1);
                 try {
@@ -153,8 +146,8 @@ public class DemoService {
 
             }
         }
-        demoModel.setChild(modelList);
-        map.put(entityName, demoModel);
+        curModel.setChild(modelList);
+        map.put(entityName, curModel);
 
         return map;
 
@@ -163,6 +156,6 @@ public class DemoService {
     public Map<String, DemoModel> getDataById(int Id) {
         List<DemoEntity> list = demoRepository.findAll();
         List<Map<String, DemoModel>> modelList = new ArrayList<>();
-        return recursiveHelperFunction(Id, list, modelList);
+        return recursiveFunction(Id, list, modelList);
     }
 }
