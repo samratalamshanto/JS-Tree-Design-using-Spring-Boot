@@ -124,6 +124,9 @@ public class DemoService {
                     for (DemoModel mapModelValue : map1.values()) {
                         int childDemoModel1 = mapModelValue.getHasChild();  //if mapModelValue has child then we call again the recursiveFunction()
                         log.info("childModel1: {}", childDemoModel1);
+
+                        //we can easily call the got value to recursively
+                        //if got value has child then it again call, otherwise [] will return in recursive call
                         if (childDemoModel1 == 1) {
                             List<Map<String, DemoModel>> modelList1 = new ArrayList<>();
                             map1 = recursiveFunction(curEntityId, fullEntityList, modelList1);  //otherwise it will not return all values.
