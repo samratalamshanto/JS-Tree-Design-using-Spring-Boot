@@ -87,7 +87,7 @@
                                             "parentName": "lead1-4",
                                             "isParent": 0,
                                             "hasChild": 0,
-                                            "child": null
+                                            "child": []
                                         }
                                     }
                                 ]
@@ -118,7 +118,7 @@
                                 "parentName": "vp1",
                                 "isParent": 0,
                                 "hasChild": 0,
-                                "child": null
+                                "child": []
                             }
                         }
                     ]
@@ -129,7 +129,7 @@
                     "parentName": "ceo1",
                     "isParent": 0,
                     "hasChild": 0,
-                    "child": null
+                    "child": []
                 }
             },
             {
@@ -137,7 +137,7 @@
                     "parentName": "ceo1",
                     "isParent": 0,
                     "hasChild": 0,
-                    "child": null
+                    "child": []
                 }
             }
         ]
