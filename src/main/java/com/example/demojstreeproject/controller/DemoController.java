@@ -20,10 +20,12 @@ public class DemoController {
         this.demoService = demoService;
     }
 
+
     @GetMapping
     public List<DemoEntity> welcome() {
         return demoService.getData();
     }
+
 
     @GetMapping("single/{id}")
     public Map<String, DemoModel> getByName(@PathVariable("id") int entityId) {
