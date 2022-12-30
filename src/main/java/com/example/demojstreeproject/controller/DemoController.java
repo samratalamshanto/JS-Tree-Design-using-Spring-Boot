@@ -23,6 +23,7 @@ public class DemoController {
 
     @GetMapping
     public List<DemoEntity> welcome() {
+        String data = String.format("Get all Data: \n %s", demoService.getData());
         return demoService.getData();
     }
 
